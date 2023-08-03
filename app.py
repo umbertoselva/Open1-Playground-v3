@@ -65,8 +65,6 @@ def download():
 
 # DISPLAY STREAMLIT APP
 
-# st.write(st.session_state)
-
 # SIDEBAR - Select and display PDF
 with st.sidebar:
 
