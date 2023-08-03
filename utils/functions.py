@@ -3,7 +3,7 @@ import base64
 import tiktoken
 
 
-def display_pdf() #(file_path: str):
+def display_pdf(): #(file_path: str):
     """
     Function to display PDF that exists on disk
     """
