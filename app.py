@@ -114,7 +114,7 @@ if pdf:
         # Load PDF to display
         
         # Display PDF from appropriate category
-        display_pdf() #f"pdf/{category}/{pdf}.pdf") # https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/pdf/{category}/{pdf}.pdf
+        display_pdf(f"pdf/{category}/{pdf}.pdf") # https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/pdf/{category}/{pdf}.pdf
 
         # Load vectorstore corresponding to pdf
         vectorstore = FAISS.load_local(
