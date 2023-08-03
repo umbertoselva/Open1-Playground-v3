@@ -73,7 +73,7 @@ with st.sidebar:
         options=["anapen_smpc", "atacand_smpc", "inhixa_smpc", "roctavian_smpc",
                     "anapen_leaflet", "atacand_leaflet", "inhixa_leaflet", "roctavian_leaflet",
                     "4878975 BPZ Vitamin D Test", "4879012 BPZ Eisenmangel Test", 
-                    "4879029 BPZ Lebensmittelreaktions Test", "4879035 BPZ Vitamin B12 Test",
+                    "4879029 BPZ Lebensmittelreaktions Test", "4879035 BPZ Vitamin B12 Test", "4879035 Vitamin B12 Test",
                     "docViewer_blaueHandArzt", "docViewer_blaueHandPatient", 
                     "docViewer_blaueHandPatientenKarte"],
         index=0,
