@@ -32,14 +32,6 @@ footer {visibility: hidden;}
 """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-st.markdown("""
-<style>
-.stSidebar .block-container{
-    padding-top: 1rem;
-}
-</style>
-    """, unsafe_allow_html=True)
-
 unix_timestamp = str(datetime.datetime.now()) # str(time.time()) # Used for ChatID
 model_name = 'gpt-3.5-turbo-16k'
 temperature = 0.0
