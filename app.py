@@ -154,7 +154,7 @@ if pdf:
 
         # Welcome message
         if category == "SmPC":
-            st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png")
+            welcome_msg = st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png")
             welcome_msg.write(f"Wie kann ich Ihnen helfen?\n\
                               \n- Was sind die Nebenwirkungen dieses Produkts?\
                               \n- Wie lauten die Zulassungsinformationen für dieses Produkt?\
@@ -166,7 +166,7 @@ if pdf:
             #         \nIf I fail to provide a satisfactory answer, please rephrase your question and try again.\n\
             #         \nSuggested questions:\n- What are the side effects of this product?\n- What is the marketing authorisation information for this product?")
         elif category == "leaflet":
-            st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png")
+            welcome_msg = st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png")
             welcome_msg.write(f"Wie kann ich Ihnen helfen?\n\
                               \n- Wie und wann soll ich das Produkt einnehmen?\
                               \n- Darf ich es mit Alkohol einnehmen?\
@@ -178,7 +178,7 @@ if pdf:
             #         \nIf I fail to provide a satisfactory answer, please rephrase your question and try again.\n\
             #         \nSuggested questions:\n- What are the side effects of this product?\n- How and when should I take this product?")
         elif category == "PDF":
-            st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png")
+            welcome_msg = st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png")
             welcome_msg.write(f"Wie kann ich Ihnen helfen?\n\
                               \n- Wie soll ich das Produkt anwenden?\
                               \n- Was ist das?\
