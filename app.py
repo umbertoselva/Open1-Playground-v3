@@ -32,7 +32,7 @@ footer {visibility: hidden;}
 """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-unix_timestamp = str(datetime.datetime.now())
+unix_timestamp = str(datetime.datetime.now()) # str(time.time()) # Used for ChatID
 model_name = 'gpt-3.5-turbo-16k'
 temperature = 0.0
 
@@ -65,15 +65,22 @@ def download():
 
 # DISPLAY STREAMLIT APP
 
+# st.write(st.session_state)
+
 # SIDEBAR - Select and display PDF
 with st.sidebar:
+
+    st.image(
+        image="img/large-Logo-pharmazie-com.png",
+        width=250
+    )
 
     pdf = st.selectbox(
         label="Select PDF file:",
         options=["anapen_smpc", "atacand_smpc", "inhixa_smpc", "roctavian_smpc",
                     "anapen_leaflet", "atacand_leaflet", "inhixa_leaflet", "roctavian_leaflet",
                     "4878975 BPZ Vitamin D Test", "4879012 BPZ Eisenmangel Test", 
-                    "4879029 BPZ Lebensmittelreaktions Test", "4879035 BPZ Vitamin B12 Test", "4879035 Vitamin B12 Test",
+                    "4879029 BPZ Lebensmittelreaktions Test", "4879035 BPZ Vitamin B12 Test",
                     "docViewer_blaueHandArzt", "docViewer_blaueHandPatient", 
                     "docViewer_blaueHandPatientenKarte"],
         index=0,
@@ -103,18 +110,21 @@ if pdf:
 
         if pdf[-4:] == "smpc":
             category = "SmPC"
+            type = "Fachinformation"
             name = pdf[:-5].capitalize()
         elif pdf[-7:] == "leaflet":
             category = "leaflet"
+            type = "Packungsbeilage"
             name = pdf[:-8].capitalize()
         else:
             category = "PDF"
+            type = "Information"
             name = pdf
 
         # Load PDF to display
         
         # Display PDF from appropriate category
-        display_pdf(f"pdf/{category}/{pdf}.pdf") # https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/pdf/{category}/{pdf}.pdf
+        display_pdf(f"pdf/{category}/{pdf}.pdf") # (category, pdf)
 
         # Load vectorstore corresponding to pdf
         vectorstore = FAISS.load_local(
@@ -128,37 +138,55 @@ if pdf:
 
     if vectorstore:
 
+        st.markdown("### :blue[Willkommen beim neuen KI-basierten Co-Piloten von Pharmazie.com]")
+
         # Initial info message (displayed in a blue bar)
-        intro_info = f"You are chatting with the {category} documentation for {name}"
+        # intro_info = f"You are chatting with the {category} documentation for {name}"
+        intro_info = f"Sie sind im Chat mit der {type} für {name}"
         st.info(intro_info)
 
         # Display chatbot in main area
         user_input = st.chat_input(
-            placeholder="Please type your question here.",
+            # placeholder="Please type your question here.",
+            placeholder="Fragen Sie mich etwas....",
             key="user_input"
         ) # N.B. st.chat_input can only be used in the main area of the screen (not in cols etc.)
 
         # Welcome message
         if category == "SmPC":
-            welcome_msg = st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png")
-            welcome_msg.write(f"Hello, I am Pharmazie.com's AI assistant, I am here to assist you with {name}'s {category} documentation.\
-                    How can I help you?\
-                    \nPlease state your question clearly and provide detailed instructions.\
-                    \nIf I fail to provide a satisfactory answer, please rephrase your question and try again.\n\
-                    \nSuggested questions:\n- What are the side effects of this product?\n- What is the marketing authorisation information for this product?")
+            welcome_msg = st.chat_message("assistant", avatar="img/logo-icon.png")
+            welcome_msg.write(f"Wie kann ich Ihnen helfen?\n\
+                              \n- Was sind die Nebenwirkungen dieses Produkts?\
+                              \n- Wie lauten die Zulassungsinformationen für dieses Produkt?\
+                              \n- Was sind die Anwendungsgebiete dieses Arzneimittels?\
+                              \n- Wie wird es dosiert?")
+            # welcome_msg.write(f"Hello, I am Pharmazie.com's AI assistant, I am here to assist you with {name}'s {category} documentation.\
+            #         How can I help you?\
+            #         \nPlease state your question clearly and provide detailed instructions.\
+            #         \nIf I fail to provide a satisfactory answer, please rephrase your question and try again.\n\
+            #         \nSuggested questions:\n- What are the side effects of this product?\n- What is the marketing authorisation information for this product?")
         elif category == "leaflet":
-            welcome_msg = st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png")
-            welcome_msg.write(f"Hello, I am Pharmazie.com's AI assistant, I am here to assist you with {name}'s {category} documentation.\
-                    How can I help you?\
-                    \nPlease state your question clearly and provide detailed instructions.\
-                    \nIf I fail to provide a satisfactory answer, please rephrase your question and try again.\n\
-                    \nSuggested questions:\n- What are the side effects of this product?\n- How and when should I take this product?")
+            welcome_msg = st.chat_message("assistant", avatar="img/logo-icon.png")
+            welcome_msg.write(f"Wie kann ich Ihnen helfen?\n\
+                              \n- Wie und wann soll ich das Produkt einnehmen?\
+                              \n- Darf ich es mit Alkohol einnehmen?\
+                              \n- Darf ich damit Autofahren?\
+                              \n- Was soll ich tun, wenn ich die Einnahme vergessen habe?")
+            # welcome_msg.write(f"Hello, I am Pharmazie.com's AI assistant, I am here to assist you with {name}'s {category} documentation.\
+            #         How can I help you?\
+            #         \nPlease state your question clearly and provide detailed instructions.\
+            #         \nIf I fail to provide a satisfactory answer, please rephrase your question and try again.\n\
+            #         \nSuggested questions:\n- What are the side effects of this product?\n- How and when should I take this product?")
         elif category == "PDF":
-            welcome_msg = st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png")
-            welcome_msg.write(f"Hello, I am Pharmazie.com's AI assistant, I am here to assist you with {name}'s {category} documentation.\
-                    How can I help you?\
-                    \nPlease state your question clearly and provide detailed instructions.\
-                    \nIf I fail to provide a satisfactory answer, please rephrase your question and try again.")        
+            welcome_msg = st.chat_message("assistant", avatar="img/logo-icon.png")
+            welcome_msg.write(f"Wie kann ich Ihnen helfen?\n\
+                              \n- Wie soll ich das Produkt anwenden?\
+                              \n- Was ist das?\
+                              \n- Wie hilft es mir?")
+            # welcome_msg.write(f"Hello, I am Pharmazie.com's AI assistant, I am here to assist you with {name}'s {category} documentation.\
+            #         How can I help you?\
+            #         \nPlease state your question clearly and provide detailed instructions.\
+            #         \nIf I fail to provide a satisfactory answer, please rephrase your question and try again.")        
 
         # BUTTON CODE ----------------------------------------------------------------------------------------------------
         # Whenever a button is pressed on Streamlit, the whole app re-runs
@@ -178,7 +206,7 @@ if pdf:
                         st.write(st.session_state["past"][i])                            
 
                     # display the output generated by the chatbot
-                    with st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png"):
+                    with st.chat_message("assistant", avatar="img/logo-icon.png"):
                         st.write(st.session_state["generated"][i])
                 
                 # reset rating to 0
@@ -199,7 +227,8 @@ if pdf:
                         st.button("👎", on_click=thumbs_down, key=random.choices(string.ascii_uppercase, k=8))
                 
                 # Display message to confirm that feedback was sent
-                st.info("Thank you for you feedback.")
+                # st.info("Thank you for you feedback.")
+                st.info("Vielen Dank für Ihr Feedback")
 
         # If download button was pressed during previous run
         if st.session_state.download == True:
@@ -214,7 +243,7 @@ if pdf:
                         st.write(st.session_state["past"][i])                            
 
                     # display the output generated by the chatbot
-                    with st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png"):
+                    with st.chat_message("assistant", avatar="img/logo-icon.png"):
                         st.write(st.session_state["generated"][i])
 
                 # reset "download" variable to False
@@ -376,7 +405,7 @@ if pdf:
                             st.write(st.session_state["past"][i])                            
 
                         # display the output generated by the chatbot
-                        with st.chat_message("assistant", avatar="https://raw.githubusercontent.com/umbertoselva/Open1-Playground-v3/main/img/logo-icon.png"):
+                        with st.chat_message("assistant", avatar="img/logo-icon.png"):
                             st.write(st.session_state["generated"][i])
 
                     # Set columns to display buttons
