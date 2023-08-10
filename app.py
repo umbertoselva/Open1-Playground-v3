@@ -14,7 +14,8 @@ from langchain import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 embeddings = OpenAIEmbeddings()
 
-from utils.prompt_templates import condense_template, smpc_qa_template, leaflet_qa_template, new_pdf_qa_template
+# from utils.prompt_templates import condense_template, smpc_qa_template, leaflet_qa_template, new_pdf_qa_template
+from utils.prompt_templates_DE import condense_template, smpc_qa_template, leaflet_qa_template, new_pdf_qa_template
 from utils.functions import display_pdf, ensure_token_limit, get_variables_for_prompt, count_doc_tokens
 from utils.chains import chain
 
